@@ -1,0 +1,16 @@
+<!-- @dsCard group="Base" height=240 subtitle="Select nativo com o estilo do sistema" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>Select — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+var P = [{ value: '7', label: 'Últimos 7 dias' }, { value: '30', label: 'Últimos 30 dias' }, { value: '90', label: 'Últimos 90 dias' }, { value: 'mes', label: 'Este mês' }];
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo', style: { maxWidth: 440 } },
+  h(I.Select, { label: 'Período', options: P, defaultValue: '30', hint: 'Comparado com os 30 dias anteriores.' }),
+  h(I.Select, { label: 'Trilha', options: [{ value: '', label: 'A definir' }, { value: 'sem', label: 'Sem configurador' }, { value: 'fraco', label: 'Configurador fraco' }], defaultValue: '', error: 'Defina a trilha para liberar a ofensiva.' }),
+  h(I.Select, { label: 'Tier', inline: true, size: 'sm', options: [{ value: 'all', label: 'Todos' }, { value: '1', label: 'T1' }, { value: '2', label: 'T2' }, { value: '3', label: 'T3' }] })));
+</script>
+</body>
+</html>

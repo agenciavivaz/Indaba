@@ -1,0 +1,21 @@
+<!-- @dsCard group="Mapa" height=220 subtitle="Um pulso, uma vez" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>SignalPulse — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+function Demo() {
+  var k = React.useState(0);
+  return h('div', { className: 'ib-demo' },
+    h('div', { className: 'ib-demo-row', style: { alignItems: 'center' } },
+      h(I.SignalPulse, { key: k[0], label: 'Sinal novo há 3 horas' }, h('span', { style: { width: 40, height: 40, borderRadius: 999, background: 'var(--brasa)', display: 'inline-block' } })),
+      h(I.SignalPulse, { key: 'b' + k[0], label: 'Sinal novo' }, h(I.Icon, { name: 'email', size: 20 })),
+      h(I.TerritoryNode, { key: 'c' + k[0], name: 'Rodaviva Ônibus', tier: 2, score: 34, siege: 44, pulse: true })),
+    h('div', null, h(I.Button, { size: 'sm', icon: 'refresh', onClick: function () { k[1](k[0] + 1); } }, 'Tocar de novo')));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

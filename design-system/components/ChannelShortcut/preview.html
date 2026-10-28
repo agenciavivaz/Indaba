@@ -1,0 +1,18 @@
+<!-- @dsCard group="Missões" height=300 subtitle="Abre o canal com tudo pronto" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>ChannelShortcut — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo' },
+  h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 } },
+    h(I.ChannelShortcut, { channel: 'email', href: 'mailto:renata@ferronorte.example?subject=Configurador', value: 'renata@ferronorte.example', kbd: 'O' }),
+    h(I.ChannelShortcut, { channel: 'linkedin', href: 'https://www.linkedin.com/in/exemplo', value: 'linkedin.com/in/renata-ilha-exemplo' }),
+    h(I.ChannelShortcut, { channel: 'whatsapp', href: 'https://wa.me/5500000000000', value: '+55 51 90000-0000' }),
+    h(I.ChannelShortcut, { channel: 'telefone', href: 'tel:+555100000000', value: '+55 51 0000-0000' }),
+    h(I.ChannelShortcut, { channel: 'email', missing: true, missingReason: 'E-mail extrapolado, revele antes de enviar' }))));
+</script>
+</body>
+</html>

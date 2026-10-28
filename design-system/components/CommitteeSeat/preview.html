@@ -1,0 +1,34 @@
+<!-- @dsCard group="Mapa" height=520 subtitle="Seis estados com forma, rótulo e cor" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>CommitteeSeat — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+var S = [
+  { state: 'nevoa', expected: 'Gerente de Mídia', onSearch: function () {} },
+  { state: 'mapeada', name: 'Caio Nogueira', title: 'Coordenador de Trade', missing: 'email' },
+  { state: 'alcancavel', name: 'Marcos Tavares', title: 'Diretor Comercial' },
+  { state: 'contato', name: 'Helena Duarte', title: 'CEO' },
+  { state: 'engajada', name: 'Renata Ilha', title: 'Gerente de Produto' },
+  { state: 'braco', name: 'Lívia Prado', title: 'Diretora de Marketing' }
+];
+function Demo() {
+  var sel = React.useState(2);
+  return h('div', { className: 'ib-demo' },
+    h('p', { className: 'ib-demo-cap' }, 'Estados, do vazio ao braço erguido'),
+    h('div', { className: 'ib-demo-row' }, S.map(function (p, i) { return h(I.CommitteeSeat, Object.assign({ key: i, selected: sel[0] === i, onClick: function () { sel[1](i); } }, p)); })),
+    h('p', { className: 'ib-demo-cap' }, 'Sinal novo (pulso uma vez) e modo apresentação, com cargo no lugar do nome'),
+    h('div', { className: 'ib-demo-row' },
+      h(I.CommitteeSeat, { state: 'engajada', name: 'Lívia Prado', title: 'Diretora de Marketing', pulse: true, pulseLabel: 'Sinal novo há 3 horas' }),
+      h(I.CommitteeSeat, { state: 'alcancavel', name: 'Marcos Tavares', title: 'Diretor Comercial', presentation: true }),
+      h(I.CommitteeSeat, { state: 'engajada', name: 'Renata Ilha', title: 'Gerente de Produto', presentation: true }),
+      h(I.CommitteeSeat, { state: 'nevoa', expected: 'Gerente de Mídia', presentation: true })),
+    h('p', { className: 'ib-demo-cap' }, 'Tamanho compacto'),
+    h('div', { className: 'ib-demo-row' }, S.map(function (p, i) { return h(I.CommitteeSeat, Object.assign({ key: i, size: 'sm' }, p, { onSearch: null })); })));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

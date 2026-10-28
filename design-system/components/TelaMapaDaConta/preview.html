@@ -1,0 +1,89 @@
+<!-- @dsCard group="Telas" page height=1180 width=1280 subtitle="Mapa da conta, desktop" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>TelaMapaDaConta — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+function Nav(active) {
+  function item(id, label, icon, kbd) {
+    return h('a', { href: '#', className: 'ib-nav__item' + (active === id ? ' is-on' : ''), 'aria-current': active === id ? 'page' : undefined, onClick: function (e) { e.preventDefault(); } },
+      h(I.Icon, { name: icon, size: 16 }), label, kbd ? h('kbd', { className: 'ib-kbd', 'aria-hidden': 'true' }, kbd) : null);
+  }
+  return h('nav', { className: 'ib-nav', 'aria-label': 'Navegação principal' },
+    h('div', { className: 'ib-nav__brand' }, 'Indaba'),
+    item('missoes', 'Missões do dia', 'route', 'G M'),
+    item('territorio', 'Território', 'map', 'G T'),
+    item('relatorio', 'Relatório', 'trend-up', 'G R'),
+    h('div', { className: 'ib-nav__sep' }),
+    item('inteligencia', 'Inteligência', 'upload'),
+    item('programa', 'Programa', 'target'),
+    h('div', { className: 'ib-nav__foot' }, h('div', { style: { color: 'var(--ink)', fontWeight: 600 } }, 'Montadoras BR'), h('div', null, 'Workspace Exemplo 3D')));
+}
+
+var ROUTES = [
+  { id: 'decisao', label: 'Decisão', seats: [
+    { id: 'p1', state: 'engajada', name: 'Lívia Prado', title: 'Diretora de Marketing', pulse: true, pulseLabel: 'Sinal novo há 3 horas' },
+    { id: 'p2', state: 'alcancavel', name: 'Marcos Tavares', title: 'Diretor Comercial' },
+    { id: 'p3', state: 'contato', name: 'Helena Duarte', title: 'CEO' } ] },
+  { id: 'influencia', label: 'Influência', seats: [
+    { id: 'p4', state: 'engajada', name: 'Renata Ilha', title: 'Gerente de Produto' },
+    { id: 'p5', state: 'mapeada', name: 'Caio Nogueira', title: 'Coordenador de Trade', missing: 'email' },
+    { id: 'p6', state: 'nevoa', expected: 'Gerente de Mídia' } ] },
+  { id: 'operacao', label: 'Operação', seats: [
+    { id: 'p7', state: 'nevoa', expected: 'Analista de E-commerce' },
+    { id: 'p8', state: 'nevoa', expected: 'Engenheiro de Aplicação' } ] }
+];
+
+var CT = [
+  { id: 'a', priority: 1, name: 'Marcos Tavares', title: 'Diretor Comercial', role: 'decisor', roleSource: 'humano', area: 'Comercial', email: 'marcos@ferronorte.example', emailStatus: 'verificado', phone: '+55 51 0000-0001', whatsapp: true, linkedin: '#', connection: 'conectado', cadence: false, optOut: false },
+  { id: 'b', priority: 1, name: 'Lívia Prado', title: 'Diretora de Marketing', role: 'decisor', roleSource: 'humano', area: 'Marketing', email: 'livia@ferronorte.example', emailStatus: 'verificado', phone: '', whatsapp: false, linkedin: '#', connection: 'conectado', cadence: false, optOut: false },
+  { id: 'c', priority: 1, name: 'Helena Duarte', title: 'CEO', role: 'decisor', roleSource: 'humano', area: 'Diretoria', email: 'helena@ferronorte.example', emailStatus: 'verificado', phone: '', whatsapp: false, linkedin: '#', connection: 'pendente', cadence: false, optOut: false },
+  { id: 'd', priority: 2, name: 'Renata Ilha', title: 'Gerente de Produto', role: 'influenciador', roleSource: 'humano', area: 'Produto', email: 'renata@ferronorte.example', emailStatus: 'verificado', phone: '', whatsapp: true, linkedin: '#', connection: 'conectado', cadence: false, optOut: false },
+  { id: 'e', priority: 2, name: 'Caio Nogueira', title: 'Coordenador de Trade', role: 'influenciador', roleSource: 'ia', area: 'Trade', email: '', emailStatus: 'indisponivel', phone: '', whatsapp: false, linkedin: '#', connection: 'nao', cadence: false, optOut: false }
+];
+var GATE = { items: [{ label: 'Dossiê anexado', done: true }, { label: 'Ficha da conta preenchida', done: true }, { label: 'Trilha definida', done: false, action: { label: 'Definir', onClick: function () {} } }] };
+var WHY = [{ label: 'Respondeu e-mail', detail: 'Renata Ilha, 27/10/2026', value: 30 }, { label: 'Relatório LinkedIn', detail: 'Visão média, 28/10/2026', value: 10 }, { label: 'Reagiu a post', detail: 'Lívia Prado, expirou em 26/10', value: 15, inactive: true }];
+var SIG = [
+  { title: 'Respondeu e-mail', person: 'Renata Ilha', origin: 'Missão', when: '27/10/2026', points: 30, fresh: true },
+  { title: 'Relatório LinkedIn', origin: 'LinkedIn Ads', when: '28/10/2026', points: 10 },
+  { title: 'Vaga em engenharia de aplicação', origin: 'Apollo', when: '24/10/2026', points: 10 },
+  { title: 'Reagiu a post', person: 'Lívia Prado', origin: 'Manual', when: '26/09/2026', points: 15, expired: true }
+];
+function Screen() {
+  var view = React.useState('mapa'), tab = React.useState('sinais'), seat = React.useState('p1');
+  var parts = { cobertura: 0.6, alcance: 0.67, visao: 0.6, engajamento: 0.67 };
+  return h('div', { className: 'ib-app' }, Nav('territorio'),
+    h('main', { className: 'ib-main', style: { gap: 20 } },
+      h('nav', { 'aria-label': 'Caminho', style: { fontSize: 13, color: 'var(--ink-muted)', display: 'flex', gap: 6, alignItems: 'center' } }, h('a', { href: '#', className: 'ib-link', style: { color: 'var(--ink-muted)' } }, 'Montadoras BR'), h(I.Icon, { name: 'chevron-right', size: 14 }), h('span', { style: { color: 'var(--ink)' } }, 'Ferronorte Máquinas')),
+      h('header', { style: { display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto', gap: 24, alignItems: 'start' } },
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: 10 } },
+          h('h1', { className: 'account-lg', style: { margin: 0 } }, 'Ferronorte Máquinas'),
+          h('div', { className: 'ib-row', style: { gap: 10 } }, h(I.TierBadge, { tier: 2, showMode: true }), h(I.StageBadge, { stage: 'engajada', days: 1 }),
+            h('span', { style: { fontSize: 13, color: 'var(--ink-muted)' } }, 'Trilha a definir'), h('a', { href: '#', className: 'ib-link', style: { fontSize: 13 } }, 'ferronorte.example'))),
+        h('div', { style: { display: 'flex', gap: 24, alignItems: 'center' } },
+          h('div', { style: { width: 220 } }, h(I.TemperatureMeter, { score: 40, size: 'lg', why: WHY, align: 'end' })),
+          h(I.SiegeRing, { parts: parts, size: 72, align: 'end', details: { cobertura: '3 de 5 papéis-alvo com pessoa', alcance: '4 de 6 pessoas de prioridade 1 e 2', visao: 'Visão média, relatório de 28/10', engajamento: 'Score 40 dividido por 60' } }))),
+      h('div', { className: 'ib-row', style: { gap: 20, marginTop: -8 } },
+        h(I.ObjectiveMarker, { compact: true, state: 'conquistado', label: 'Comitê mapeado' }),
+        h(I.ObjectiveMarker, { compact: true, state: 'conquistado', label: 'Visão estabelecida' }),
+        h(I.ObjectiveMarker, { compact: true, state: 'pendente', label: 'Decisor alcançado' }),
+        h(I.ObjectiveMarker, { compact: true, state: 'pendente', label: 'Braço erguido' }),
+        h(I.ObjectiveMarker, { compact: true, state: 'pendente', label: 'Reunião' })),
+      h('div', { style: { display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(320px, 1fr)', gap: 24, alignItems: 'start' } },
+        h('section', { 'aria-label': 'Comitê', style: { display: 'flex', flexDirection: 'column', gap: 12 } },
+          h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } }, h('h2', { className: 'ib-panel__h' }, 'Comitê'), h(I.ViewToggle, { value: view[0], onChange: view[1], label: 'Visualização do comitê', options: [{ id: 'mapa', label: 'Mapa', icon: 'map' }, { id: 'tabela', label: 'Tabela', icon: 'list' }] })),
+          view[0] === 'mapa' ? h(I.AccountMap, { routes: ROUTES, selectedId: seat[0], onSeatClick: function (s) { seat[1](s.id); }, onSearch: function () {}, vision: { level: 3, source: 'LinkedIn Ads, relatório de 28/10/2026' } }) : h(I.CommitteeTable, { rows: CT })),
+        h(I.NextMoveRail, { move: { title: 'Iniciar ofensiva', why: ['A conta virou Engajada ontem (score 40).', 'Renata Ilha respondeu e Lívia Prado reagiu: dois do comitê com sinal próprio.'], gate: GATE, action: { label: 'Iniciar ofensiva', kbd: 'I' } },
+          missions: [{ channel: 'dossie', title: 'Definir trilha no dossiê', due: 'Hoje' }, { channel: 'linkedin', title: 'Interagir com post de Marcos', due: 'Amanhã' }],
+          signals: SIG.slice(0, 3) })),
+      h('section', { style: { display: 'flex', flexDirection: 'column', gap: 12 } },
+        h(I.Tabs, { value: tab[0], onChange: tab[1], label: 'Seções da conta', items: [{ id: 'sinais', label: 'Sinais', count: 4 }, { id: 'dossie', label: 'Dossiê e assets' }, { id: 'replay', label: 'Replay' }, { id: 'negocio', label: 'Negócio' }] }),
+        tab[0] === 'sinais' ? h('div', { style: { maxWidth: 720 } }, SIG.map(function (s, i) { return h(I.SignalItem, Object.assign({ key: i }, s)); })) :
+          h(I.EmptyState, { compact: true, icon: tab[0] === 'dossie' ? 'search' : tab[0] === 'replay' ? 'clock' : 'briefcase', title: tab[0] === 'dossie' ? 'Dossiê de 21/10/2026' : tab[0] === 'replay' ? 'Replay da conta' : 'Sem negócio ainda', body: tab[0] === 'negocio' ? 'A oportunidade vai para o CRM quando a reunião for realizada.' : 'Conteúdo desta aba.' }))));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Screen));
+</script>
+</body>
+</html>

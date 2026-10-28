@@ -1,0 +1,72 @@
+<!-- @dsCard group="Telas" page height=1320 width=1280 subtitle="Relatório, aba Resumo, Modo Relatório" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>TelaRelatorio — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+function Nav(active) {
+  function item(id, label, icon, kbd) {
+    return h('a', { href: '#', className: 'ib-nav__item' + (active === id ? ' is-on' : ''), 'aria-current': active === id ? 'page' : undefined, onClick: function (e) { e.preventDefault(); } },
+      h(I.Icon, { name: icon, size: 16 }), label, kbd ? h('kbd', { className: 'ib-kbd', 'aria-hidden': 'true' }, kbd) : null);
+  }
+  return h('nav', { className: 'ib-nav', 'aria-label': 'Navegação principal' },
+    h('div', { className: 'ib-nav__brand' }, 'Indaba'),
+    item('missoes', 'Missões do dia', 'route', 'G M'),
+    item('territorio', 'Território', 'map', 'G T'),
+    item('relatorio', 'Relatório', 'trend-up', 'G R'),
+    h('div', { className: 'ib-nav__sep' }),
+    item('inteligencia', 'Inteligência', 'upload'),
+    item('programa', 'Programa', 'target'),
+    h('div', { className: 'ib-nav__foot' }, h('div', { style: { color: 'var(--ink)', fontWeight: 600 } }, 'Montadoras BR'), h('div', null, 'Workspace Exemplo 3D')));
+}
+
+function Screen() {
+  var tab = React.useState('resumo');
+  var P = [{ value: '30', label: 'Últimos 30 dias' }, { value: '7', label: 'Últimos 7 dias' }, { value: '90', label: 'Últimos 90 dias' }, { value: 'mes', label: 'Este mês' }];
+  var tiles = function (arr) { return h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(' + arr.length + ', minmax(0, 1fr))', gap: 12 } }, arr.map(function (t, i) { return h(I.StatTile, Object.assign({ key: i }, t)); })); };
+  return h('div', { className: 'ib-app' }, Nav('relatorio'),
+    h('main', { className: 'ib-main' },
+      h('header', { className: 'ib-pagehead' },
+        h('div', null, h('h1', { className: 'display ib-pagehead__title' }, 'Relatório'), h('p', { className: 'ib-pagehead__sub' }, 'Montadoras BR. De 29/09 a 28/10/2026, comparado aos 30 dias anteriores.')),
+        h('div', { className: 'ib-row' }, h(I.Select, { label: 'Período', inline: true, size: 'sm', options: P }), h(I.Button, { size: 'sm', icon: 'download' }, 'Exportar PDF'))),
+      h(I.Tabs, { value: tab[0], onChange: tab[1], label: 'Visões do relatório', items: [{ id: 'resumo', label: 'Resumo' }, { id: 'sinais', label: 'Sinais' }, { id: 'jornada', label: 'Jornada das contas' }, { id: 'agir', label: 'Onde agir', count: 4 }, { id: 'execucao', label: 'Execução' }, { id: 'conta', label: 'Visão por conta' }] }),
+      h(I.ErrorBanner, { title: 'LinkedIn Ads responde por 86% dos pontos', body: 'Acima do limite de 80%. O score depende de uma fonte só: registre sinais de 1:1 no resultado de cada missão.', action: { label: 'Ver origens' } }),
+      h('section', { 'aria-labelledby': 'h-res', style: { display: 'flex', flexDirection: 'column', gap: 10 } },
+        h('h2', { id: 'h-res', className: 'ib-panel__h' }, 'Resultado'),
+        tiles([
+          { label: 'Contas com sinal', value: '44', unit: 'de 64', delta: { value: '+6', direction: 'up', good: true } },
+          { label: 'Respostas', value: '4', delta: { value: '+3', direction: 'up', good: true } },
+          { label: 'Braços erguidos', value: '1', delta: { value: '+1', direction: 'up', good: true }, footnote: 'Meta do piloto: 3' },
+          { label: 'Reuniões agendadas', value: '1', delta: { value: 'igual', good: null }, footnote: 'Meta do piloto: 2' },
+          { label: 'Score médio', value: '11', delta: { value: '+3', direction: 'up', good: true }, why: { title: 'Score médio', summary: 'Média do score das 64 contas no último dia do período.', note: 'Score é a soma dos sinais ativos nos últimos 30 dias.' } }])),
+      h('section', { 'aria-labelledby': 'h-exe', style: { display: 'flex', flexDirection: 'column', gap: 10 } },
+        h('h2', { id: 'h-exe', className: 'ib-panel__h' }, 'Execução'),
+        tiles([
+          { label: 'Missões concluídas', value: '138', delta: { value: '+12', direction: 'up', good: null } },
+          { label: 'No prazo', value: '71%', delta: { value: '+22 p.p.', direction: 'up', good: true } },
+          { label: 'Com resultado registrado', value: '96%', footnote: 'Meta do piloto: 95%' },
+          { label: 'Atrasadas agora', value: '3', delta: { value: '−1', direction: 'down', good: true } }])),
+      h('div', { style: { display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 16 } },
+        h('section', { className: 'ib-panel', style: { padding: 20, display: 'flex', flexDirection: 'column', gap: 20 } },
+          h('h2', { className: 'ib-panel__h' }, 'Programa hoje'),
+          h(I.BarChart, { data: [{ label: 'Fria', value: 52 }, { label: 'Engajada', value: 9, highlight: true }, { label: 'Quente', value: 3, highlight: true }], title: 'Contas por temperatura' }),
+          h('div', null, h('p', { className: 'ib-chart__title', style: { margin: '0 0 4px' } }, 'Maiores scores'),
+            [['Vale do Aço Implementos', 72, 'conversa'], ['Bandeirante Gruas', 70, 'reuniao_realizada'], ['Boreal Pesados', 68, 'reuniao_agendada'], ['Urbana Motocicletas', 61, 'conversa']].map(function (r, i) {
+              return h('div', { key: i, style: { display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto auto', gap: 12, alignItems: 'center', padding: '8px 0', borderTop: '1px solid var(--relevo)' } },
+                h('span', { className: 'account', style: { fontSize: 14 } }, r[0]), h(I.TemperatureMeter, { score: r[1], size: 'sm' }), h(I.StageBadge, { stage: r[2] }));
+            }))),
+        h('section', { className: 'ib-panel', style: { padding: 20, display: 'flex', flexDirection: 'column', gap: 20 } },
+          h(I.LineChart, { title: 'Sinais por semana', labels: ['30/09', '07/10', '14/10', '21/10', '28/10'], series: [{ name: 'Últimos 30 dias', values: [18, 22, 27, 31, 38] }, { name: '30 dias anteriores', values: [12, 15, 14, 19, 21] }] }),
+          h(I.BarChart, { title: 'Pontos por origem', unit: '%', max: 100, threshold: 80, thresholdLabel: 'Limite de 80% por origem', data: [{ label: 'LinkedIn Ads', value: 86 }, { label: 'Missões', value: 9 }, { label: 'Link pessoal', value: 3 }, { label: 'Apollo', value: 2 }] }))),
+      h(I.AIDraft, { agent: 'Leitura do período', onRegenerate: function () {}, footnote: 'Gerada a partir das métricas desta página. Os números acima são calculados por regras, não pela IA.',
+        body: h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 24, fontSize: 14, lineHeight: '20px' } },
+          h('div', null, h('p', { style: { margin: '0 0 6px', fontWeight: 600 } }, 'Destaques'), h('ul', { className: 'ib-reasons' }, h('li', null, 'Missões no prazo subiram de 49% para 71%.'), h('li', null, 'Primeiro braço erguido do programa, na Vale do Aço.'), h('li', null, 'Duas janelas abertas viraram ofensiva em até 2 dias úteis.'))),
+          h('div', null, h('p', { style: { margin: '0 0 6px', fontWeight: 600 } }, 'Pontos de atenção'), h('ul', { className: 'ib-reasons' }, h('li', null, '86% dos pontos vêm do LinkedIn Ads.'), h('li', null, '12 contas sem sinal há 21 dias ou mais.'), h('li', null, 'Ferronorte está Engajada com a trilha a definir.'))),
+          h('div', null, h('p', { style: { margin: '0 0 6px', fontWeight: 600 } }, 'Recomendação'), h('p', { style: { margin: 0 } }, 'A execução melhorou mais que o resultado. Revise a oferta da trilha "sem configurador" antes de aumentar o volume de missões.'))) })));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Screen));
+</script>
+</body>
+</html>

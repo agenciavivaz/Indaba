@@ -1,0 +1,16 @@
+<!-- @dsCard group="Base" height=360 subtitle="Confirmação discreta, com desfazer" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>Toast — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo' },
+  h(I.Toast, { tone: 'positive', title: 'Resultado registrado', body: 'Renata Ilha respondeu. Sinal +30 na Ferronorte.', action: { label: 'Desfazer', kbd: 'U' } }),
+  h(I.Toast, { title: 'Relatório do LinkedIn enviado', body: '61 sinais criados em 44 contas.' }),
+  h(I.Toast, { tone: 'ai', title: 'Dossiê pronto para revisão', body: 'Serra Azul Tratores', action: { label: 'Abrir' } }),
+  h(I.Toast, { tone: 'risk', title: 'Não foi possível revelar 2 e-mails', body: 'O limite mensal de créditos do Apollo acabou.', onDismiss: function () {} })));
+</script>
+</body>
+</html>

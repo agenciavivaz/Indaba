@@ -1,0 +1,22 @@
+<!-- @dsCard group="Dados e relatório" height=470 subtitle="Um evento no mapa, com origem e pontos" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>SignalItem — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo' },
+  h('div', { style: { maxWidth: 560 } },
+    h(I.SignalItem, { title: 'Respondeu e-mail', person: 'Renata Ilha', account: 'Ferronorte Máquinas', origin: 'Missão', when: 'há 3 horas', points: 30, fresh: true }),
+    h(I.SignalItem, { title: 'Relatório LinkedIn', account: 'Ferronorte Máquinas', origin: 'LinkedIn Ads', when: '28/10/2026', points: 10 }),
+    h(I.SignalItem, { title: 'Vaga em engenharia de aplicação', account: 'Ferronorte Máquinas', origin: 'Apollo', when: '24/10/2026', points: 10 }),
+    h(I.SignalItem, { title: 'Abriu e-mail', person: 'Marcos Tavares', origin: 'Missão', when: '23/10/2026', points: 0 }),
+    h(I.SignalItem, { title: 'Reagiu a post', person: 'Lívia Prado', origin: 'Manual', when: '25/09/2026', points: 15, expired: true })),
+  h('p', { className: 'ib-demo-cap' }, 'Compacto, no trilho'),
+  h('div', { style: { maxWidth: 320 } },
+    h(I.SignalItem, { compact: true, title: 'Clicou no link pessoal', origin: 'Link pessoal', when: '28/10/2026', points: 25 }),
+    h(I.SignalItem, { compact: true, title: 'Formulário da calculadora', origin: 'Formulário', when: '27/10/2026', points: 50 }))));
+</script>
+</body>
+</html>

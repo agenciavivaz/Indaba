@@ -1,0 +1,19 @@
+<!-- @dsCard group="Mapa" height=420 subtitle="% de cerco com os quatro componentes" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>SiegeRing — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+var P = { cobertura: 0.8, alcance: 0.67, visao: 0.6, engajamento: 0.57 };
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo' },
+  h('div', { className: 'ib-demo-row', style: { alignItems: 'flex-start', minHeight: 300 } },
+    h(I.SiegeRing, { parts: P, size: 72, whyOpen: true, details: { cobertura: '4 de 5 papéis-alvo com pessoa', alcance: '2 de 3 pessoas de prioridade 1 e 2', visao: 'Visão média no relatório de 28/10', engajamento: 'Score 34 dividido por 60' } }),
+    h('div', { style: { width: 240 } }),
+    h(I.SiegeRing, { parts: { cobertura: 0.4, alcance: 0.2, visao: 0.2, engajamento: 0.1 }, size: 48 }),
+    h(I.SiegeRing, { parts: { cobertura: 1, alcance: 1, visao: 0.8, engajamento: 1 }, size: 48 }),
+    h(I.SiegeRing, { parts: { cobertura: 0.2, alcance: 0, visao: 0, engajamento: 0 }, size: 32, label: false }))));
+</script>
+</body>
+</html>

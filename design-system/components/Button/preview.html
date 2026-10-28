@@ -1,0 +1,25 @@
+<!-- @dsCard group="Base" height=300 subtitle="Primário é ink, nunca brasa" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>Button — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo' },
+  h('div', { className: 'ib-row' },
+    h(I.Button, { variant: 'primary', kbd: 'I' }, 'Iniciar ofensiva'),
+    h(I.Button, { icon: 'search' }, 'Buscar no Apollo'),
+    h(I.Button, { variant: 'ghost', icon: 'skip' }, 'Pular'),
+    h(I.Button, { variant: 'ai', icon: 'sparkle' }, 'Gerar dossiê'),
+    h(I.Button, { variant: 'danger', icon: 'trash' }, 'Descartar conta')),
+  h('div', { className: 'ib-row' },
+    h(I.Button, { variant: 'primary', size: 'sm' }, 'Registrar'),
+    h(I.Button, { size: 'sm', icon: 'copy', kbd: 'C' }, 'Copiar'),
+    h(I.Button, { variant: 'primary', size: 'lg', icon: 'phone' }, 'Ligar'),
+    h(I.Button, { icon: 'more', 'aria-label': 'Mais ações' }),
+    h(I.Button, { variant: 'primary', disabled: true }, 'Iniciar ofensiva'),
+    h(I.Button, { loading: true }, 'Revelando'))));
+</script>
+</body>
+</html>

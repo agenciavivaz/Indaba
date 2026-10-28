@@ -1,0 +1,88 @@
+<!-- @dsCard group="Telas" page height=1000 width=1280 subtitle="Território, Mapa e Lista" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>TelaTerritorio — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+function Nav(active) {
+  function item(id, label, icon, kbd) {
+    return h('a', { href: '#', className: 'ib-nav__item' + (active === id ? ' is-on' : ''), 'aria-current': active === id ? 'page' : undefined, onClick: function (e) { e.preventDefault(); } },
+      h(I.Icon, { name: icon, size: 16 }), label, kbd ? h('kbd', { className: 'ib-kbd', 'aria-hidden': 'true' }, kbd) : null);
+  }
+  return h('nav', { className: 'ib-nav', 'aria-label': 'Navegação principal' },
+    h('div', { className: 'ib-nav__brand' }, 'Indaba'),
+    item('missoes', 'Missões do dia', 'route', 'G M'),
+    item('territorio', 'Território', 'map', 'G T'),
+    item('relatorio', 'Relatório', 'trend-up', 'G R'),
+    h('div', { className: 'ib-nav__sep' }),
+    item('inteligencia', 'Inteligência', 'upload'),
+    item('programa', 'Programa', 'target'),
+    h('div', { className: 'ib-nav__foot' }, h('div', { style: { color: 'var(--ink)', fontWeight: 600 } }, 'Montadoras BR'), h('div', null, 'Workspace Exemplo 3D')));
+}
+
+var ACC = [
+  ['Ferronorte Máquinas', 1, 'engajada', 40, 52, false, true], ['Vale do Aço Implementos', 1, 'conversa', 72, 81, false, true], ['Altiplano Agrícola', 1, 'em_cadencia', 46, 63, false, false],
+  ['Rodaviva Ônibus', 2, 'engajada', 34, 44, true, true], ['Serra Azul Tratores', 2, 'aquecendo', 18, 30, false, false], ['Pampa Guindastes', 3, 'alvo', 0, 12, true, false],
+  ['Cordilheira Motores', 2, 'em_cadencia', 31, 55, false, false], ['Marítima Eixos', 3, 'aquecendo', 12, 24, false, false], ['Taquari Implementos', 2, 'aquecendo', 22, 28, false, true],
+  ['Boreal Pesados', 1, 'reuniao_agendada', 68, 86, false, false], ['Itaúna Fundição', 3, 'alvo', 0, 8, true, false], ['Caiapó Carrocerias', 2, 'alvo', 5, 16, false, false],
+  ['Guaporé Reboques', 3, 'aquecendo', 9, 20, false, false], ['Litoral Empilhadeiras', 2, 'engajada', 38, 40, true, false], ['Nascente Hidráulica', 3, 'alvo', 0, 10, false, false],
+  ['Planalto Colheitadeiras', 1, 'aquecendo', 26, 38, false, true], ['Rio Claro Plásticos', 3, 'aquecendo', 14, 18, false, false], ['Sertão Perfuratrizes', 2, 'alvo', 0, 14, true, false],
+  ['Trilha Forte Pneus', 3, 'alvo', 3, 6, false, false], ['Urbana Motocicletas', 2, 'conversa', 61, 70, false, false], ['Várzea Silos', 3, 'aquecendo', 16, 22, false, false],
+  ['Xingu Correias', 3, 'alvo', 0, 9, false, false], ['Zênite Compressores', 2, 'aquecendo', 20, 26, false, false], ['Aurora Tratorpeças', 3, 'alvo', 0, 11, false, false],
+  ['Bandeirante Gruas', 1, 'reuniao_realizada', 70, 92, false, false], ['Cerrado Pulverizadores', 2, 'nutricao', 12, 35, false, false]
+].map(function (a, i) { return { id: 'a' + i, name: a[0], tier: a[1], stage: a[2], score: a[3], siege: a[4], locked: a[5], pulse: a[6] }; });
+
+var COLS = [
+  { id: 'alvo', label: 'Alvo', stages: ['alvo'] }, { id: 'aquecendo', label: 'Aquecendo', stages: ['aquecendo'] },
+  { id: 'engajada', label: 'Engajada', hint: 'Janela aberta', stages: ['engajada'] }, { id: 'em_cadencia', label: 'Em cadência', hint: 'Ofensiva', stages: ['em_cadencia'] },
+  { id: 'conversa', label: 'Conversa', stages: ['conversa'] }, { id: 'reuniao', label: 'Reunião', stages: ['reuniao_agendada', 'reuniao_realizada'] }
+];
+function Screen() {
+  var view = React.useState('mapa'), sel = React.useState('a0'), f1 = React.useState(false), f2 = React.useState(false);
+  var list = ACC.filter(function (a) { return (!f1[0] || a.score < 10) && (!f2[0] || a.stage === 'engajada'); });
+  return h('div', { className: 'ib-app' }, Nav('territorio'),
+    h('main', { className: 'ib-main' },
+      h('header', { className: 'ib-pagehead' },
+        h('div', null, h('h1', { className: 'display ib-pagehead__title' }, 'Montadoras BR'),
+          h('p', { className: 'ib-pagehead__sub' }, '26 contas no território. Cerco médio de 34%.')),
+        h('div', { style: { display: 'flex', alignItems: 'center', gap: 16 } },
+          h(I.SiegeRing, { parts: { cobertura: 0.52, alcance: 0.38, visao: 0.3, engajamento: 0.16 }, size: 56, align: 'end', label: 'Cerco do território' }),
+          h(I.ViewToggle, { value: view[0], onChange: view[1], label: 'Visualização do território' }))),
+      h('div', { className: 'ib-row', style: { gap: 12 } },
+        h(I.Select, { label: 'Tier', inline: true, size: 'sm', options: [{ value: 'all', label: 'Todos' }, { value: '1', label: 'T1' }, { value: '2', label: 'T2' }, { value: '3', label: 'T3' }] }),
+        h(I.Select, { label: 'Temperatura', inline: true, size: 'sm', options: [{ value: 'all', label: 'Todas' }, { value: 'f', label: 'Fria' }, { value: 'e', label: 'Engajada' }, { value: 'q', label: 'Quente' }] }),
+        h(I.Select, { label: 'SDR', inline: true, size: 'sm', options: [{ value: 'all', label: 'Todas' }, { value: 'b', label: 'Bianca Freitas' }] }),
+        h(I.Button, { size: 'sm', variant: f1[0] ? 'primary' : 'secondary', 'aria-pressed': f1[0], onClick: function () { f1[1](!f1[0]); } }, 'Sem sinal há 21+ dias'),
+        h(I.Button, { size: 'sm', variant: f2[0] ? 'primary' : 'secondary', 'aria-pressed': f2[0], onClick: function () { f2[1](!f2[0]); } }, 'Engajada sem ofensiva')),
+      view[0] === 'mapa' ? h('section', { className: 'ib-panel', 'aria-label': 'Território por fase', style: { position: 'relative', overflow: 'hidden', padding: 0 } },
+        h(I.AccountMap.Relief, { seed: 0.7 }),
+        h('div', { style: { position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(6, minmax(0, 1fr))' } }, COLS.map(function (c, ci) {
+          var items = list.filter(function (a) { return c.stages.indexOf(a.stage) >= 0; });
+          return h('div', { key: c.id, role: 'group', 'aria-label': c.label + ', ' + items.length + ' contas', style: { borderLeft: ci ? '1px solid var(--relevo)' : 0, padding: '16px 8px 24px', minHeight: 520 } },
+            h('div', { style: { padding: '0 8px 12px', display: 'flex', flexDirection: 'column' } },
+              h('span', { style: { display: 'flex', justifyContent: 'space-between', fontWeight: 600 } }, c.label, h('span', { className: 'ib-num', style: { color: 'var(--ink-muted)' } }, items.length)),
+              h('span', { style: { fontSize: 12, lineHeight: '16px', color: 'var(--ink-muted)', minHeight: 16 } }, c.hint || '')),
+            h('div', { style: { display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'flex-end', gap: 4 } }, items.map(function (a) {
+              return h(I.TerritoryNode, { key: a.id, name: a.name, tier: a.tier, score: a.score, siege: a.siege, locked: a.locked, pulse: a.pulse, selected: sel[0] === a.id, onClick: function () { sel[1](a.id); } });
+            })));
+        })),
+        h('div', { style: { position: 'relative', display: 'flex', flexWrap: 'wrap', gap: 20, padding: '12px 16px', borderTop: '1px solid var(--relevo)', fontSize: 12, color: 'var(--ink-muted)', alignItems: 'center' } },
+          h('span', null, 'Tamanho do nó: tier'), h('span', null, 'Anel: % de cerco'), h('span', { style: { display: 'inline-flex', gap: 6, alignItems: 'center' } }, 'Miolo: temperatura', h(I.TempChip, { temp: 'fria' }), h(I.TempChip, { temp: 'engajada' }), h(I.TempChip, { temp: 'quente' })),
+          h('span', { style: { display: 'inline-flex', gap: 6, alignItems: 'center' } }, h('span', { className: 'ib-node__lock', style: { position: 'static', boxShadow: 'none' } }, h(I.Icon, { name: 'lock', size: 10, strokeWidth: 2.5 })), 'Gate pendente'),
+          h('span', { style: { display: 'inline-flex', gap: 6, alignItems: 'center' } }, h('span', { style: { width: 8, height: 8, borderRadius: 9, background: 'var(--brasa)' } }), 'Sinal nas últimas 24h'))) :
+      h('div', { className: 'ib-ct' }, h('div', { className: 'ib-ct__scroll', tabIndex: 0, role: 'region', 'aria-label': 'Lista de contas' }, h('table', { className: 'ib-ct__table' },
+        h('thead', null, h('tr', null, ['Conta', 'Tier', 'Estágio', 'Temperatura', 'Cerco', 'Comitê', 'Decisores', 'Conectados', 'E-mails ok', 'Dias no estágio'].map(function (c, i) { return h('th', { key: c, scope: 'col', className: i > 3 ? 'ib-ct__num' : null }, c); }))),
+        h('tbody', null, list.map(function (a, i) {
+          return h('tr', { key: a.id },
+            h('td', { className: 'ib-ct__name' }, h('span', { className: 'account', style: { fontSize: 14 } }, a.name), a.locked ? h('span', { style: { marginLeft: 8, color: 'var(--gate)', display: 'inline-flex', verticalAlign: 'middle' }, title: 'Gate pendente' }, h(I.Icon, { name: 'lock', size: 14, label: 'Gate pendente' })) : null),
+            h('td', null, h(I.TierBadge, { tier: a.tier })), h('td', null, h(I.StageBadge, { stage: a.stage })),
+            h('td', null, h(I.TemperatureMeter, { score: a.score, size: 'sm' })),
+            h('td', { className: 'ib-ct__num' }, a.siege + '%'), h('td', { className: 'ib-ct__num' }, 3 + (i % 5)), h('td', { className: 'ib-ct__num' }, 1 + (i % 3)), h('td', { className: 'ib-ct__num' }, i % 4), h('td', { className: 'ib-ct__num' }, 2 + (i % 4)), h('td', { className: 'ib-ct__num' }, (i * 7) % 30));
+        })))))));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Screen));
+</script>
+</body>
+</html>

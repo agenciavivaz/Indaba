@@ -1,0 +1,51 @@
+<!-- @dsCard group="Telas" page height=1350 width=1080 subtitle="Modo apresentação para print, 1080 por 1350" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>TelaMapaApresentacao — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+var ROUTES = [
+  { id: 'decisao', label: 'Decisão', seats: [
+    { id: 'p1', state: 'engajada', name: 'Lívia Prado', title: 'Diretora de Marketing', pulse: true, pulseLabel: 'Sinal novo há 3 horas' },
+    { id: 'p2', state: 'alcancavel', name: 'Marcos Tavares', title: 'Diretor Comercial' },
+    { id: 'p3', state: 'contato', name: 'Helena Duarte', title: 'CEO' } ] },
+  { id: 'influencia', label: 'Influência', seats: [
+    { id: 'p4', state: 'engajada', name: 'Renata Ilha', title: 'Gerente de Produto' },
+    { id: 'p5', state: 'mapeada', name: 'Caio Nogueira', title: 'Coordenador de Trade', missing: 'email' },
+    { id: 'p6', state: 'nevoa', expected: 'Gerente de Mídia' } ] },
+  { id: 'operacao', label: 'Operação', seats: [
+    { id: 'p7', state: 'nevoa', expected: 'Analista de E-commerce' },
+    { id: 'p8', state: 'nevoa', expected: 'Engenheiro de Aplicação' } ] }
+];
+
+var PRES = ROUTES.map(function (r) { return Object.assign({}, r, { seats: r.seats.map(function (s) { return Object.assign({}, s, { pulse: false }); }) }); });
+function Screen() {
+  return h('div', { style: { width: 1080, minHeight: 1350, boxSizing: 'border-box', padding: '72px 72px 56px', display: 'flex', flexDirection: 'column', gap: 32, background: 'var(--surface)' } },
+    h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' } },
+      h('span', { style: { fontSize: 18, fontWeight: 600 } }, 'Raio-x do cerco'),
+      h('span', { style: { fontSize: 16, color: 'var(--ink-muted)' } }, '28/10/2026')),
+    h('div', { style: { display: 'grid', gridTemplateColumns: '1fr auto', gap: 32, alignItems: 'end' } },
+      h('div', null,
+        h('h1', { className: 'display', style: { margin: 0, fontSize: 56, lineHeight: '60px' } }, 'Fabricante de implementos'),
+        h('p', { style: { margin: '12px 0 0', fontSize: 18, lineHeight: '26px', color: 'var(--ink-muted)' } }, 'Conta T2 em Engajada. Comitê de 8 posições, 3 ainda em névoa.')),
+      h('div', { style: { display: 'flex', gap: 28, alignItems: 'center' } },
+        h('div', { style: { width: 220 } }, h(I.TemperatureMeter, { score: 40, size: 'lg' })),
+        h(I.SiegeRing, { parts: { cobertura: 0.6, alcance: 0.67, visao: 0.6, engajamento: 0.67 }, size: 88, why: false }))),
+    h('div', { className: 'ib-row', style: { gap: 24 } },
+      h(I.ObjectiveMarker, { state: 'conquistado', label: 'Comitê mapeado', caption: 'Conquistado' }),
+      h(I.ObjectiveMarker, { state: 'conquistado', label: 'Visão estabelecida', caption: 'Conquistado' }),
+      h(I.ObjectiveMarker, { state: 'pendente', label: 'Decisor alcançado' }),
+      h(I.ObjectiveMarker, { state: 'pendente', label: 'Braço erguido' }),
+      h(I.ObjectiveMarker, { state: 'pendente', label: 'Reunião' })),
+    h(I.AccountMap, { routes: PRES, presentation: true, seed: 3.4, vision: { level: 3, source: 'Relatório de anúncios por empresa' }, className: 'ib-map--print' }),
+    h(I.AccountMap.Legend),
+    h('div', { style: { marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingTop: 24, borderTop: '1px solid var(--relevo)' } },
+      h('span', { style: { fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700, letterSpacing: '-0.02em' } }, 'Indaba'),
+      h('span', { style: { fontSize: 14, color: 'var(--ink-muted)' } }, 'Nomes trocados por cargos. Dados ilustrativos.')));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Screen));
+</script>
+</body>
+</html>

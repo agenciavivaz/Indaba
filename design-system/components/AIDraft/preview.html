@@ -1,0 +1,17 @@
+<!-- @dsCard group="Missões" height=760 subtitle="Roxo só para o que a IA escreveu" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>AIDraft — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+var BODY = 'Renata, obrigado por aceitar. Vi que você curtiu o post sobre configuradores de implementos. Hoje o cliente de vocês monta a configuração no site ou ainda depende do vendedor?';
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo', style: { maxWidth: 560 } },
+  h(I.AIDraft, { agent: 'Redator de missão', body: BODY, onEdit: function () {}, onRegenerate: function () {}, footnote: 'Usa o dossiê, a trilha e os sinais de 22 e 27/10.' }),
+  h(I.AIDraft, { status: 'loading', agent: 'Redator de missão' }),
+  h(I.AIDraft, { status: 'accepted', subject: 'Configurador da Ferronorte', body: 'Marcos, vi que a Ferronorte abriu duas vagas de engenharia de aplicação.' }),
+  h(I.AIDraft, { editable: true, agent: 'Redator de missão', body: BODY, onRegenerate: function () {} })));
+</script>
+</body>
+</html>

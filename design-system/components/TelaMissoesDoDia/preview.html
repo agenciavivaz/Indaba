@@ -1,0 +1,109 @@
+<!-- @dsCard group="Telas" page height=920 width=1280 subtitle="Missões do dia, Modo Mapa" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>TelaMissoesDoDia — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+function Nav(active) {
+  function item(id, label, icon, kbd) {
+    return h('a', { href: '#', className: 'ib-nav__item' + (active === id ? ' is-on' : ''), 'aria-current': active === id ? 'page' : undefined, onClick: function (e) { e.preventDefault(); } },
+      h(I.Icon, { name: icon, size: 16 }), label, kbd ? h('kbd', { className: 'ib-kbd', 'aria-hidden': 'true' }, kbd) : null);
+  }
+  return h('nav', { className: 'ib-nav', 'aria-label': 'Navegação principal' },
+    h('div', { className: 'ib-nav__brand' }, 'Indaba'),
+    item('missoes', 'Missões do dia', 'route', 'G M'),
+    item('territorio', 'Território', 'map', 'G T'),
+    item('relatorio', 'Relatório', 'trend-up', 'G R'),
+    h('div', { className: 'ib-nav__sep' }),
+    item('inteligencia', 'Inteligência', 'upload'),
+    item('programa', 'Programa', 'target'),
+    h('div', { className: 'ib-nav__foot' }, h('div', { style: { color: 'var(--ink)', fontWeight: 600 } }, 'Montadoras BR'), h('div', null, 'Workspace Exemplo 3D')));
+}
+
+var ACC = [
+  ['Ferronorte Máquinas', 1, 'engajada', 40, 52, false, true], ['Vale do Aço Implementos', 1, 'conversa', 72, 81, false, true], ['Altiplano Agrícola', 1, 'em_cadencia', 46, 63, false, false],
+  ['Rodaviva Ônibus', 2, 'engajada', 34, 44, true, true], ['Serra Azul Tratores', 2, 'aquecendo', 18, 30, false, false], ['Pampa Guindastes', 3, 'alvo', 0, 12, true, false],
+  ['Cordilheira Motores', 2, 'em_cadencia', 31, 55, false, false], ['Marítima Eixos', 3, 'aquecendo', 12, 24, false, false], ['Taquari Implementos', 2, 'aquecendo', 22, 28, false, true],
+  ['Boreal Pesados', 1, 'reuniao_agendada', 68, 86, false, false], ['Itaúna Fundição', 3, 'alvo', 0, 8, true, false], ['Caiapó Carrocerias', 2, 'alvo', 5, 16, false, false],
+  ['Guaporé Reboques', 3, 'aquecendo', 9, 20, false, false], ['Litoral Empilhadeiras', 2, 'engajada', 38, 40, true, false], ['Nascente Hidráulica', 3, 'alvo', 0, 10, false, false],
+  ['Planalto Colheitadeiras', 1, 'aquecendo', 26, 38, false, true], ['Rio Claro Plásticos', 3, 'aquecendo', 14, 18, false, false], ['Sertão Perfuratrizes', 2, 'alvo', 0, 14, true, false],
+  ['Trilha Forte Pneus', 3, 'alvo', 3, 6, false, false], ['Urbana Motocicletas', 2, 'conversa', 61, 70, false, false], ['Várzea Silos', 3, 'aquecendo', 16, 22, false, false],
+  ['Xingu Correias', 3, 'alvo', 0, 9, false, false], ['Zênite Compressores', 2, 'aquecendo', 20, 26, false, false], ['Aurora Tratorpeças', 3, 'alvo', 0, 11, false, false],
+  ['Bandeirante Gruas', 1, 'reuniao_realizada', 70, 92, false, false], ['Cerrado Pulverizadores', 2, 'nutricao', 12, 35, false, false]
+].map(function (a, i) { return { id: 'a' + i, name: a[0], tier: a[1], stage: a[2], score: a[3], siege: a[4], locked: a[5], pulse: a[6] }; });
+
+var GROUPS = [
+  { group: 'agora', rows: [
+    { id: 'm1', channel: 'formulario', title: 'Responder formulário', account: 'Vale do Aço Implementos', person: 'Paulo Reis, Gerente Comercial', reason: 'Pediu a calculadora de ROI às 14h05', due: 'faltam 42 min', fresh: true } ] },
+  { group: 'janela', rows: [
+    { id: 'm2', channel: 'comite', title: 'Iniciar ofensiva', account: 'Ferronorte Máquinas', person: 'Checklist 2 de 3, falta a trilha', reason: 'Score 40, dois influenciadores reagiram em 14 dias', due: 'Hoje', fresh: true },
+    { id: 'm3', channel: 'telefone', title: 'Ligar para o decisor', account: 'Urbana Motocicletas', person: 'Sílvia Rocha, Diretora Comercial', reason: 'Conta Quente, score 61', due: 'Hoje' } ] },
+  { group: 'ofensiva', rows: [
+    { id: 'm4', channel: 'linkedin', step: 'D3', title: 'Mensagem no LinkedIn', account: 'Cordilheira Motores', person: 'Ana Moreira, Head de Marketing', reason: 'Aceitou o convite ontem', due: 'Venceu ontem', state: 'fechando' },
+    { id: 'm5', channel: 'email', step: 'E2', title: 'E-mail de prova', account: 'Altiplano Agrícola', person: 'Jorge Lins, Diretor de Produto', reason: 'Segundo e-mail da cadência', due: 'Hoje' },
+    { id: 'm6', channel: 'whatsapp', step: 'W1', title: 'WhatsApp de apresentação', account: 'Altiplano Agrícola', person: 'Beatriz Costa, Gerente de Trade', reason: 'Primeiro toque por WhatsApp', due: 'Hoje' },
+    { id: 'm7', channel: 'email', step: 'E1', title: 'E-mail de abertura', account: 'Cordilheira Motores', person: 'Rui Pacheco, CEO', reason: 'Decisor alcançável desde 26/10', due: 'Hoje', state: 'concluida' } ] },
+  { group: 'preparacao', rows: [
+    { id: 'm8', channel: 'dossie', title: 'Gerar dossiê', account: 'Planalto Colheitadeiras', reason: 'Conta saiu de Alvo, falta dossiê', due: 'Esta semana' },
+    { id: 'm9', channel: 'comite', title: 'Validar comitê', account: 'Taquari Implementos', reason: '3 papéis sugeridos pela IA sem revisão', due: 'Esta semana' } ] }
+];
+var FLAT = []; GROUPS.forEach(function (g) { g.rows.forEach(function (r) { FLAT.push(r); }); });
+var MISSION = {
+  title: 'Iniciar ofensiva', channel: 'comite', outcomeChannel: 'interagir', due: 'Hoje',
+  person: { name: 'Ferronorte Máquinas', title: 'Conta T2, trilha a definir' }, account: { name: 'Montadoras BR' },
+  why: ['A conta virou Engajada ontem (score 40).', 'Renata Ilha respondeu e-mail e Lívia Prado reagiu a post.', 'Há vaga de ofensiva: 5 de 8 em uso.'],
+  instruction: 'Defina a trilha no dossiê para liberar a ofensiva. As missões da cadência são criadas quando a ofensiva começa.'
+};
+function Screen() {
+  var sel = React.useState('m1'), open = React.useState(null);
+  function focusRow(id) { sel[1](id); var el = document.querySelector('[data-mission="' + id + '"]'); if (el) el.focus(); }
+  function onKey(e) {
+    var i = FLAT.findIndex(function (r) { return r.id === sel[0]; });
+    if (e.key === 'j' || e.key === 'ArrowDown') { e.preventDefault(); focusRow(FLAT[Math.min(FLAT.length - 1, i + 1)].id); }
+    if (e.key === 'k' || e.key === 'ArrowUp') { e.preventDefault(); focusRow(FLAT[Math.max(0, i - 1)].id); }
+    if (e.key === 'Escape') open[1](null);
+    if (e.key === 'r' || e.key === 'R') open[1](sel[0]);
+  }
+  var siegeParts = { cobertura: 0.52, alcance: 0.38, visao: 0.3, engajamento: 0.16 };
+  var openRow = FLAT.filter(function (r) { return r.id === open[0]; })[0];
+  return h('div', { className: 'ib-app' }, Nav('missoes'),
+    h('main', { className: 'ib-main' },
+      h('header', { className: 'ib-pagehead' },
+        h('div', null, h('h1', { className: 'title ib-pagehead__title' }, 'Missões de hoje'),
+          h('p', { className: 'ib-pagehead__sub' }, '9 missões. Uma tem prazo de 1 hora.')),
+        h('div', { style: { display: 'flex', alignItems: 'center', gap: 16 } },
+          h('div', { style: { textAlign: 'right' } }, h('div', { style: { fontSize: 13, fontWeight: 500, color: 'var(--ink-muted)' } }, 'Território'), h('div', { className: 'account' }, 'Montadoras BR')),
+          h(I.SiegeRing, { parts: siegeParts, size: 56, label: false, align: 'end' }))),
+      h('div', { style: { display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 360px', gap: 24, alignItems: 'start' } },
+        h('section', { className: 'ib-panel', 'aria-label': 'Fila de missões', onKeyDown: onKey, style: { padding: '0 0 8px' } },
+          GROUPS.map(function (g) {
+            return h('div', { key: g.group },
+              h(I.MissionGroupHeader, { group: g.group, count: g.rows.length }),
+              h('div', { role: 'list' }, g.rows.map(function (r) {
+                return h('div', { role: 'listitem', key: r.id }, h(I.MissionRow, Object.assign({}, r, { selected: sel[0] === r.id, tabIndex: sel[0] === r.id ? 0 : -1, onFocus: function () { sel[1](r.id); }, onOpen: function () { sel[1](r.id); open[1](r.id); } })));
+              })));
+          }),
+          h('div', { className: 'ib-keys', style: { padding: '12px 12px 4px', borderTop: '1px solid var(--relevo)' } },
+            h('span', null, h('kbd', { className: 'ib-kbd' }, 'J'), h('kbd', { className: 'ib-kbd' }, 'K'), 'próxima e anterior'),
+            h('span', null, h('kbd', { className: 'ib-kbd' }, 'Enter'), 'abrir'),
+            h('span', null, h('kbd', { className: 'ib-kbd' }, 'R'), 'registrar resultado'),
+            h('span', null, h('kbd', { className: 'ib-kbd' }, '/'), 'buscar conta'))),
+        openRow ? h(I.MissionPanel, { mission: openRow.id === 'm2' ? MISSION : Object.assign({}, MISSION, { title: openRow.title, channel: openRow.channel, outcomeChannel: openRow.channel, step: openRow.step, due: openRow.due, person: { name: (openRow.person || '').split(',')[0], title: (openRow.person || '').split(',').slice(1).join(',').trim() }, account: { name: openRow.account }, why: [openRow.reason], instruction: null }), onClose: function () { open[1](null); } }) :
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+          h('section', { className: 'ib-panel', style: { padding: 16, position: 'relative', overflow: 'hidden' } },
+            h(I.AccountMap.Relief, { seed: 2.1 }),
+            h('div', { style: { position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' } }, h('h2', { className: 'ib-panel__h' }, 'Território'), h('span', { style: { fontSize: 12, color: 'var(--ink-muted)' } }, '5 sinais nas últimas 24h')),
+            h('div', { style: { position: 'relative', display: 'flex', flexWrap: 'wrap', gap: 2, marginTop: 12 } }, ACC.slice(0, 16).map(function (a) { return h(I.TerritoryNode, { key: a.id, tier: a.tier, name: a.name, score: a.score, siege: a.siege, locked: a.locked, pulse: a.pulse, showLabel: false, onClick: function () {}, className: 'ib-node--mini' }); })),
+            h('a', { href: '#', className: 'ib-link', style: { position: 'relative', fontSize: 13, display: 'inline-block', marginTop: 8 } }, 'Abrir território')),
+          h('section', { className: 'ib-panel', style: { padding: 16, display: 'flex', flexDirection: 'column', gap: 10 } },
+            h('h2', { className: 'ib-panel__h' }, 'Objetivos da semana'),
+            h(I.ObjectiveMarker, { state: 'conquistado', label: 'Janelas atendidas em 2 dias úteis', caption: '2 de 2 contas' }),
+            h(I.ObjectiveMarker, { state: 'pendente', label: 'Reuniões com decisor', caption: '1 de 2' }),
+            h(I.ObjectiveMarker, { state: 'pendente', label: 'Comitês mapeados', caption: '3 de 5' }))))));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Screen));
+</script>
+</body>
+</html>

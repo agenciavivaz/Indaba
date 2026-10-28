@@ -1,0 +1,17 @@
+<!-- @dsCard group="Dados e relatório" height=420 subtitle="Número com comparação de período" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>StatTile — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo' },
+  h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 } },
+    h(I.StatTile, { label: 'Contas com sinal', value: '44', unit: 'de 64', delta: { value: '+6', direction: 'up', good: true }, footnote: '69% do programa' }),
+    h(I.StatTile, { label: 'Missões no prazo', value: '71%', delta: { value: '+22 p.p.', direction: 'up', good: true }, why: { title: 'Missões no prazo', summary: 'Missões concluídas até o prazo dividido pelas missões vencidas no período.', items: [{ label: 'No prazo', value: '92' }, { label: 'Vencidas no período', value: '129' }] } }),
+    h(I.StatTile, { label: 'Braços erguidos', value: '0', delta: { value: 'igual', good: null }, footnote: 'Meta do piloto: 3' }),
+    h(I.StatTile, { label: 'Score médio', value: '11', delta: { value: '−2', direction: 'down', good: false } }))));
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{
+  "v": 3,
+  "assetGroups": {},
+  "blobs": {},
+  "createdOnFiles": {
+    "at": "2026-10-28T19:51:34Z",
+    "v": 1
+  },
+  "docs": {
+    "sections": []
+  },
+  "groups": [],
+  "lastChange": {
+    "at": "2026-10-28T19:51:34Z",
+    "by": "Diego Rodrigues",
+    "note": "Evolução do DS de out/2026 para o Modo Mapa e o Modo Relatório, a partir do PRD do MVP (seção 14).",
+    "via": "Claude"
+  },
+  "layout": "files",
+  "libraries": [
+    {
+      "name": "react",
+      "version": "18"
+    },
+    {
+      "name": "react-dom",
+      "version": "18"
+    }
+  ],
+  "namespace": "Indaba",
+  "sections": {},
+  "title": "Indaba v2"
+}

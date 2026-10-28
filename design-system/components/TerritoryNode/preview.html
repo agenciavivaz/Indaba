@@ -1,0 +1,26 @@
+<!-- @dsCard group="Mapa" height=500 subtitle="Tier, cerco, temperatura e gate num nó" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>TerritoryNode — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+var T = ['fria', 'engajada', 'quente'];
+var names = { 1: 'Ferronorte Máquinas', 2: 'Rodaviva Ônibus', 3: 'Pampa Guindastes' };
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo' },
+  [1, 2, 3].map(function (t) {
+    return h('div', { key: t },
+      h('p', { className: 'ib-demo-cap' }, 'Tier ' + t),
+      h('div', { className: 'ib-row', style: { alignItems: 'flex-end' } }, T.map(function (temp, i) {
+        return h(I.TerritoryNode, { key: temp, tier: t, name: names[t], temperature: temp, score: [12, 38, 66][i], siege: [22, 52, 78][i], onClick: function () {} });
+      }).concat([
+        h(I.TerritoryNode, { key: 'lock', tier: t, name: names[t], temperature: 'engajada', score: 41, siege: 48, locked: true, onClick: function () {} }),
+        h(I.TerritoryNode, { key: 'sel', tier: t, name: names[t], temperature: 'quente', score: 61, siege: 70, selected: true, onClick: function () {} })
+      ])));
+  }),
+  h('p', { className: 'ib-demo-cap' }, 'Modo apresentação: nome trocado por apelido'),
+  h('div', { className: 'ib-row' }, h(I.TerritoryNode, { tier: 1, presentation: true, alias: 'Fabricante T1', temperature: 'quente', score: 66, siege: 81 }), h(I.TerritoryNode, { tier: 2, presentation: true, alias: 'Indústria T2', temperature: 'fria', score: 9, siege: 18 }))));
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!-- @dsCard group="Mapa" height=430 subtitle="Fria, Engajada e Quente, sempre com o número" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>TemperatureMeter — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+var WHY = [
+  { label: 'Respondeu e-mail', detail: 'Renata Ilha, 27/10/2026', value: 30 },
+  { label: 'Relatório LinkedIn', detail: 'Visão média, 28/10/2026', value: 10 },
+  { label: 'Reagiu a post', detail: 'Lívia Prado, 02/10/2026 (expirado)', value: 15, inactive: true }
+];
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo' },
+  h('div', { className: 'ib-demo-row', style: { minHeight: 340 } },
+    h('div', { style: { width: 260 } }, h(I.TemperatureMeter, { score: 40, size: 'lg', why: WHY, whyOpen: true })),
+    h('div', { style: { width: 220 } }, h(I.TemperatureMeter, { score: 12 })),
+    h('div', { style: { width: 220 } }, h(I.TemperatureMeter, { score: 64 }))),
+  h('p', { className: 'ib-demo-cap' }, 'Compacto, para linhas de tabela e cartões'),
+  h('div', { className: 'ib-demo-row' }, [8, 34, 71].map(function (s) { return h('div', { key: s, style: { width: 120 } }, h(I.TemperatureMeter, { score: s, size: 'sm' })); })),
+  h('p', { className: 'ib-demo-cap' }, 'Só o rótulo'),
+  h('div', { className: 'ib-row' }, h(I.TempChip, { temp: 'fria' }), h(I.TempChip, { temp: 'engajada' }), h(I.TempChip, { temp: 'quente' }))));
+</script>
+</body>
+</html>

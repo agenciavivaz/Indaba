@@ -1,0 +1,15 @@
+<!-- @dsCard group="Base" height=360 subtitle="Rótulo, ajuda, erro e contador" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>Field — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'ib-demo', style: { maxWidth: 440 } },
+  h(I.Field, { label: 'Domínio', placeholder: 'ferronorte.example', hint: 'Só o domínio, sem https.' }),
+  h(I.Field, { label: 'Domínio', defaultValue: 'https://ferronorte', error: 'Domínio inválido. Use só o domínio, por exemplo ferronorte.example.' }),
+  h(I.Field, { label: 'Convite no LinkedIn', multiline: true, counter: 300, defaultValue: 'Renata, acompanho o trabalho da Ferronorte com implementos sob medida e queria trocar ideias sobre configuração online.' })));
+</script>
+</body>
+</html>

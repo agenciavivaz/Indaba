@@ -1,0 +1,41 @@
+<!-- @dsCard group="Mapa" height=900 subtitle="Três rotas sobre curvas de nível" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>AccountMap — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+var ROUTES = [
+  { id: 'decisao', label: 'Decisão', seats: [
+    { id: 'p1', state: 'engajada', name: 'Lívia Prado', title: 'Diretora de Marketing', pulse: true, pulseLabel: 'Sinal novo há 3 horas' },
+    { id: 'p2', state: 'alcancavel', name: 'Marcos Tavares', title: 'Diretor Comercial' },
+    { id: 'p3', state: 'contato', name: 'Helena Duarte', title: 'CEO' } ] },
+  { id: 'influencia', label: 'Influência', seats: [
+    { id: 'p4', state: 'engajada', name: 'Renata Ilha', title: 'Gerente de Produto' },
+    { id: 'p5', state: 'mapeada', name: 'Caio Nogueira', title: 'Coordenador de Trade', missing: 'email' },
+    { id: 'p6', state: 'nevoa', expected: 'Gerente de Mídia' } ] },
+  { id: 'operacao', label: 'Operação', seats: [
+    { id: 'p7', state: 'nevoa', expected: 'Analista de E-commerce' },
+    { id: 'p8', state: 'nevoa', expected: 'Engenheiro de Aplicação' } ] }
+];
+
+function Demo() {
+  var s = React.useState(false), mapped = s[0];
+  var sel = React.useState('p1');
+  var routes = ROUTES.map(function (r) { return Object.assign({}, r, { seats: r.seats.map(function (x) {
+    if (x.id === 'p6' && mapped) return { id: 'p6', state: 'alcancavel', name: 'Tiago Moura', title: 'Gerente de Mídia', revealed: true };
+    return x; }) }); });
+  return h('div', { className: 'ib-demo' },
+    h('div', { className: 'ib-row' },
+      h(I.Button, { size: 'sm', icon: mapped ? 'refresh' : 'search', onClick: function () { s[1](!mapped); } }, mapped ? 'Voltar a névoa' : 'Simular: mapear Gerente de Mídia'),
+      h('span', { className: 'ib-demo-cap', style: { margin: 0 } }, 'A névoa se dissolve uma vez, em 320ms. Com movimento reduzido, troca direto.')),
+    h(I.AccountMap, { routes: routes, selectedId: sel[0], onSeatClick: function (x) { sel[1](x.id); }, onSearch: function () { s[1](true); },
+      vision: { level: 3, source: 'LinkedIn Ads, relatório de 28/10/2026' }, legend: true }),
+    h('p', { className: 'ib-demo-cap' }, 'Versão compacta, para telas estreitas'),
+    h('div', { style: { width: 360 } }, h(I.AccountMap, { routes: routes, compact: true, vision: { level: 3, source: 'LinkedIn Ads, 28/10/2026' } })));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

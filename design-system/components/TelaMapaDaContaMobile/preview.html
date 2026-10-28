@@ -1,0 +1,50 @@
+<!-- @dsCard group="Telas" page height=1720 width=390 subtitle="Mapa da conta, mobile" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"><title>TelaMapaDaContaMobile — Indaba</title></head>
+<body>
+<div id="root"></div>
+<script>
+var I = window.Indaba, h = React.createElement;
+var ROUTES = [
+  { id: 'decisao', label: 'Decisão', seats: [
+    { id: 'p1', state: 'engajada', name: 'Lívia Prado', title: 'Diretora de Marketing', pulse: true, pulseLabel: 'Sinal novo há 3 horas' },
+    { id: 'p2', state: 'alcancavel', name: 'Marcos Tavares', title: 'Diretor Comercial' },
+    { id: 'p3', state: 'contato', name: 'Helena Duarte', title: 'CEO' } ] },
+  { id: 'influencia', label: 'Influência', seats: [
+    { id: 'p4', state: 'engajada', name: 'Renata Ilha', title: 'Gerente de Produto' },
+    { id: 'p5', state: 'mapeada', name: 'Caio Nogueira', title: 'Coordenador de Trade', missing: 'email' },
+    { id: 'p6', state: 'nevoa', expected: 'Gerente de Mídia' } ] },
+  { id: 'operacao', label: 'Operação', seats: [
+    { id: 'p7', state: 'nevoa', expected: 'Analista de E-commerce' },
+    { id: 'p8', state: 'nevoa', expected: 'Engenheiro de Aplicação' } ] }
+];
+
+var GATE = { items: [{ label: 'Dossiê anexado', done: true }, { label: 'Ficha da conta preenchida', done: true }, { label: 'Trilha definida', done: false, action: { label: 'Definir', onClick: function () {} } }] };
+function Screen() {
+  return h('div', { style: { padding: 16, display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 420, margin: '0 auto' } },
+    h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+      h(I.Button, { variant: 'ghost', size: 'sm', icon: 'chevron-left', style: { paddingLeft: 0 } }, 'Montadoras BR'),
+      h(I.Button, { variant: 'ghost', size: 'sm', icon: 'more', 'aria-label': 'Mais ações' })),
+    h('div', { style: { display: 'flex', flexDirection: 'column', gap: 8 } },
+      h('h1', { className: 'account-lg', style: { margin: 0 } }, 'Ferronorte Máquinas'),
+      h('div', { className: 'ib-row', style: { gap: 8 } }, h(I.TierBadge, { tier: 2 }), h(I.StageBadge, { stage: 'engajada', days: 1 }), h('span', { style: { fontSize: 13, color: 'var(--ink-muted)' } }, 'Trilha a definir'))),
+    h('div', { style: { display: 'grid', gridTemplateColumns: '1fr auto', gap: 16, alignItems: 'center', padding: 16, border: '1px solid var(--relevo)', borderRadius: 'var(--radius-md)' } },
+      h(I.TemperatureMeter, { score: 40, why: [{ label: 'Respondeu e-mail', detail: 'Renata Ilha, 27/10', value: 30 }, { label: 'Relatório LinkedIn', detail: '28/10', value: 10 }] }),
+      h(I.SiegeRing, { parts: { cobertura: 0.6, alcance: 0.67, visao: 0.6, engajamento: 0.67 }, size: 64, align: 'end' })),
+    h('div', { className: 'ib-row', style: { gap: 12 } },
+      h(I.ObjectiveMarker, { compact: true, state: 'conquistado', label: 'Comitê mapeado' }),
+      h(I.ObjectiveMarker, { compact: true, state: 'conquistado', label: 'Visão' }),
+      h(I.ObjectiveMarker, { compact: true, state: 'pendente', label: 'Decisor' }),
+      h(I.ObjectiveMarker, { compact: true, state: 'pendente', label: 'Braço erguido' }),
+      h(I.ObjectiveMarker, { compact: true, state: 'pendente', label: 'Reunião' })),
+    h(I.NextMoveRail, { move: { title: 'Iniciar ofensiva', why: ['A conta virou Engajada ontem (score 40).', 'Dois do comitê com sinal próprio.'], gate: GATE, action: { label: 'Iniciar ofensiva' } } }),
+    h(I.AccountMap, { routes: ROUTES, compact: true, vision: { level: 3, source: 'LinkedIn Ads, 28/10/2026' } }),
+    h('section', null, h('h2', { className: 'ib-panel__h', style: { marginBottom: 4 } }, 'Últimos sinais'),
+      h(I.SignalItem, { compact: true, title: 'Respondeu e-mail', origin: 'Missão', when: '27/10/2026', points: 30, fresh: true }),
+      h(I.SignalItem, { compact: true, title: 'Relatório LinkedIn', origin: 'LinkedIn Ads', when: '28/10/2026', points: 10 })));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Screen));
+</script>
+</body>
+</html>
